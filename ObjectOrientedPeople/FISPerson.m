@@ -14,6 +14,7 @@
 @property (nonatomic, readwrite) NSUInteger ageInYears;
 @property (nonatomic, readwrite) NSUInteger heightInInches;
 @property (nonatomic, strong, readwrite) NSMutableArray *skills;
+@property (nonatomic, getter=isQualifiedTutor, readwrite) BOOL isQualifiedTutor;
 
 @end
 
@@ -38,6 +39,7 @@
         _ageInYears = ageInYears;
         _heightInInches = heightInInches;
         _skills = [[NSMutableArray alloc] init];
+        _isQualifiedTutor = NO;
     }
     
     return self;
@@ -45,8 +47,20 @@
 
 - (NSString *)celebrateBirthday {
     self.ageInYears++;
-    NSString *birthdayMessage = [[NSString alloc] initWithFormat:@"HAPPY %luTH BIRTHDAY, %@!!!", self.ageInYears, self.name.uppercaseString];
+    NSString *birthdayMessage = [[NSString alloc] initWithFormat:@"HAPPY %lu%@ BIRTHDAY, %@!!!", self.ageInYears, [self ordinalForInteger:self.ageInYears].uppercaseString, self.name.uppercaseString];
     return birthdayMessage;
+}
+
+- (NSString *)ordinalForInteger:(NSUInteger)integer {
+    NSString *ordinal = @"th";
+    if (integer % 10 == 1 && integer % 100 != 11) {
+        ordinal = @"st";
+    } else if (integer % 10 == 2 && integer % 100 != 12) {
+        ordinal = @"nd";
+    } else if (integer % 10 == 3 && integer % 100 != 13) {
+        ordinal = @"rd";
+    }
+    return ordinal;
 }
 
 - (void)learnSkillBash {
@@ -81,9 +95,12 @@
 
 - (BOOL)isQualifiedTutor {
     if (self.skills.count > 3) {
-        return YES;
+        self.isQualifiedTutor = YES;
     }
-    return NO;
+    else {
+        self.isQualifiedTutor = NO;
+    }
+    return _isQualifiedTutor;
 }
 
 @end

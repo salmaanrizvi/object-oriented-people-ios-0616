@@ -14,6 +14,7 @@
 @property (nonatomic, readonly) NSUInteger ageInYears;
 @property (nonatomic, readonly) NSUInteger heightInInches;
 @property (nonatomic, strong, readonly) NSMutableArray *skills;
+@property (nonatomic, readonly) BOOL isQualifiedTutor;
 
 -(instancetype) init;
 
